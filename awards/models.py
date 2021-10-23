@@ -18,6 +18,12 @@ class Profile(models.Model):
     def save_profile(self):
         self.save()
 
+    def update_bio(self,biography):
+        self.biography=biography
+        self.save()
+    
+    def delete_profile(self):
+        self.delete()
 
 
 

@@ -39,6 +39,8 @@ class Project(models.Model):
     description = models.TextField()
     url = URLField(max_length=100)
     posted_on = models.DateTimeField(default=timezone.now)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE, null=True)##########
+
     # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
 
     class Meta:

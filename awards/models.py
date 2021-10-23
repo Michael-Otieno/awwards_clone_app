@@ -29,10 +29,7 @@ class Profile(models.Model):
     def split_biography(self):
         return self.biography.split("\n")
 
-    @classmethod
-    def search_profile(cls, name):
-        return cls.objects.filter(user__username__icontains=name).all()
-
+   
 
 
 
@@ -42,6 +39,7 @@ class Project(models.Model):
     description = models.TextField()
     url = URLField(max_length=100)
     posted_on = models.DateTimeField(default=timezone.now)
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
 
     class Meta:
         ordering = ['-posted_on']
@@ -55,7 +53,11 @@ class Project(models.Model):
     def delete_project(self):
         self.delete()
 
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    @classmethod
+    def search_project(cls, title):
+        return cls.objects.filter(user__username__icontains=title).all()
+
+
 
 
 

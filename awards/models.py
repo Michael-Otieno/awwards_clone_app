@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.fields import URLField
 from django.db.models.fields.files import ImageField
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 
 # Create your models here.
@@ -40,7 +41,21 @@ class Project(models.Model):
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     description = models.TextField()
     url = URLField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
+    posted_on = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-posted_on']
+
+    def __str__(self):
+        return self.description
+
+    def save_project(self):
+        self.save()
+
+    def delete_project(self):
+        self.delete()
+
+    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
 
 
 

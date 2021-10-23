@@ -2,12 +2,12 @@ from django import template
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 
-from awards.models import Project
+from awards.models import Comment, Project
 from .forms import SignUpForm, PostProjectForm, ProfileForm,Profile
 from django.contrib.auth.models import User
 from django.template import context, loader
 from django.contrib.auth import login, authenticate
-
+from django.urls import reverse
 
 
 # Create your views here.
@@ -87,10 +87,19 @@ def login_user(request):
 def user_profile(request, username):
     template=loader.get_template('award/profile.html')
     profile = Profile.objects.get(user=request.user)
-    posts = Project.objects.filter(author_user_username=request.user.username)
+    projects = Project.objects.filter(author_user_username=request.user.username)
 
-    context ={'profile':profile, 'post':posts}
+    context ={'profile':profile, 'projects':projects}
     return HttpResponse(template.render(context, request))
 
      
+def add_comment(request):
+    if request.POST:
+        description, id = request.POST['description'], request.POST['demo']
+        projects = Project.objects.get(pk=id)
+        if description is not None:
+            Comment.objects.create(projects=projects, description=description, user=request.user)
+            return redirect(reverse('home'))
 
+def like_project(request, projectid):
+    try:

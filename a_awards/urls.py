@@ -24,5 +24,4 @@ import os
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('awards.urls'))
-]
-+static(settings.MEDIA_URL,document_root=os.path.join(settings.BASE_DIR,'media'))
+]+static(settings.MEDIA_URL,document_root=os.path.join(settings.BASE_DIR,'media'))

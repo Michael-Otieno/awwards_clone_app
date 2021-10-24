@@ -1,83 +1,59 @@
 from django.db import models
-from django.db.models.fields import URLField
-from django.db.models.fields.files import ImageField
 from django.contrib.auth.models import User
-from django.utils import timezone
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
-
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
-    profile_pic = models.ImageField(upload_to ='images/',null=True, blank=True)
-    biography = models.TextField(blank=True)
-    contact = models.EmailField(max_length=100, blank=True)
-
-    def __str__(self):
-        return self.user.username
+    profile_pic= models.ImageField(upload_to='profilepic/',default='default.jpeg')
+    user = models.OneToOneField(User,on_delete=models.CASCADE, null=True)
+    name = models.CharField(max_length=50,blank=True)
+    bio= models.CharField(max_length=500)
+    email=models.EmailField()
 
     def save_profile(self):
         self.save()
 
-    def update_bio(self,biography):
-        self.biography=biography
-        self.save()
-    
-    def delete_profile(self):
-        self.delete()
-
-    def split_biography(self):
-        return self.biography.split("\n")
-
+    def __str__(self):
+        return self.name
    
 
 
-
 class Project(models.Model):
-    title = models.CharField(max_length=100,null=True, blank=True, default="title")
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
-    description = models.TextField()
-    url = URLField(max_length=100)
-    posted_on = models.DateTimeField(default=timezone.now)
-    profile = models.ForeignKey(Profile,on_delete=models.CASCADE, null=True)##########
+    webimage= models.ImageField(upload_to='webimage/',null=True)
+    profile = models.ForeignKey(Profile,on_delete=models.CASCADE, null=True)
+    name= models.CharField(max_length=70)
+    description= models.TextField()
+    link= models.CharField(max_length=200)
 
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
-
-    class Meta:
-        ordering = ['-posted_on']
-
-    def __str__(self):
-        return self.description
 
     def save_project(self):
         self.save()
 
-    def delete_project(self):
-        self.delete()
 
     @classmethod
-    def search_project(cls, title):
-        return cls.objects.filter(user__username__icontains=title).all()
+    def search_by_name(cls,search_term):
+        '''
+        method to search projects based on name
+        '''
+        projects=cls.objects.filter(name__icontains=search_term)
 
+        return projects
 
-class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    project_linked = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='comments')
-    description = models.CharField(max_length=500)
-    comment_posted_on = models.DateTimeField(default=timezone.now)
+    def no_of_ratings(self):
+        ratings=Rating.objects.filter(project=self)
+        return len(ratings)
 
     def __str__(self):
-        return "Comment by {} on {}".format(self.user.username, self.post_linked.caption)
+        return self.name
+
+class Rating(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    design=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
+    content=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
+    usability=models.IntegerField(validators=[MinValueValidator(1),MaxValueValidator(10)])
 
     class Meta:
-        ordering = ('-comment_posted_on',)
-
-class Like(models.Model):
-
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    project_linked = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='posts')
-
-    def __str__(self):
-        return 'User :{} Liked {} Post '.format(self.user.username,self.post_linked.caption)
-
+        unique_together= (('user','project'),)
+        index_together = (('user','project'),)
 

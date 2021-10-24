@@ -12,9 +12,51 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+import django_heroku
+import dj_database_url
+from decouple import config,Csv
+
+
+MODE=config("MODE", default="dev")
+SECRET_KEY = config('SECRET_KEY')
+# DEBUG = config('DEBUG', default=True, cast=bool)
+# development
+# if config('MODE')=="dev":
+#    DATABASES = {
+#        'default': {
+#            'ENGINE': 'django.db.backends.postgresql',
+#            'NAME': config('DB_NAME'),
+#            'USER': config('DB_USER'),
+#            'PASSWORD': config('DB_PASSWORD'),
+#            'HOST': config('DB_HOST'),
+#            'PORT': '',
+#        }
+       
+#    }
+# # production
+# else:
+  
+DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'awards',
+            'USER': 'moringa',
+            'PASSWORD': '1234'
+    }
+}
+
+
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,7 +81,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'awards',
-    "bootstrap4",
+    "bootstrap3",
+    'rest_framework',
+    
+
 ]
 
 MIDDLEWARE = [
@@ -50,6 +95,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
 ]
 
 ROOT_URLCONF = 'a_awards.urls'
@@ -131,12 +178,22 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+) 
+
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configure Django App for Heroku.
+django_heroku.settings(locals())
+
+LOGIN_REDIRECT_URL = '/'

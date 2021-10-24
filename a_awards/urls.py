@@ -14,14 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls import url,include
 from django.conf.urls import include
-from . import settings
-from django.contrib.staticfiles.urls import static
-import os
+from django.contrib.auth import views as auth_views
+from django.contrib.auth import views
+
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('awards.urls'))
-]+static(settings.MEDIA_URL,document_root=os.path.join(settings.BASE_DIR,'media'))
+    url('admin/', admin.site.urls),
+    url('',include('awards.urls')),
+    url('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+    url(r'^logout/$', views.LoginView, {"next_page": '/'}),
+    # url('api-auth/', include('rest_framework.urls')),
+
+
+]

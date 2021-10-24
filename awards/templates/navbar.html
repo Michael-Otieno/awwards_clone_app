@@ -9,9 +9,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand " href="/"><span style="font-family: 'Calistoga', cursive;font-size:30px;color:#535250;">Awwards</a>
-      <a class="navbar-brand"  href="/"><span style="padding-right: 5px;font-weight: bold;margin-left:10px;color:#535250;">Home</span></a>
-      <a class="navbar-brand"  href="/awwardsapi"><span style="font-weight: bolder;color:#f26419;">API</span></a>
+      <a class="navbar-brand " href="/"><span style="font-family: 'Calistoga', cursive;font-size:30px;color:#3a3b3d;">A_awards</a>
+      <a class="navbar-brand"  href="/"><span style="padding-right: 5px;font-weight: bold;margin-left:10px;color:#4379ee;">HOME</span></a>
+      <a class="navbar-brand"  href="/awwardsapi"><span style="font-weight: bolder;color:#4379ee;">DEVELOPER PAGE</span></a>
      
     </div>
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -25,11 +25,11 @@
           <span style="font-weight: bold;">
           <div class="" role="menu">
             <a href="/awwards/profile/{{user.id}}" style="color: #0081a7;"><img src="{{request.user.profile.profile_pic.url}}" alt="" width="40px" height="40px" style="border-radius: 50%;"></a>
-            <small style="padding-right: 10px;">Welcome  <a href="/awwards/profile/{{user.id}}" style="color: #0081a7;">{{user.username}}</a></small>
+            <small style="padding-right: 10px;">Welcome  <a href="/awwards/profile/{{user.id}}" style="color: #4379ee;">{{user.username}}</a></small>
 
             
             
-            <a class="btn btn-info" style="border-radius: 25px;" href="/logout">Logout</a> 
+            <a class="btn btn-primary" style="border-radius: 25px;" href="/logout">Logout</a> 
           </div>
           </span>
             {% else %}

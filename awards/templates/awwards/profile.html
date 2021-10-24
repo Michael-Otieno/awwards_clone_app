@@ -16,7 +16,7 @@
                         {%csrf_token%}
 
                         {{form.as_p}}
-                        <input type="submit" class="btn btn-sm btn-success" value="update">
+                        <input type="submit" class="btn btn-sm btn-primary" value="update">
                     </form>
                 </div>
             </div>
@@ -25,11 +25,11 @@
         <div class="col-lg-6">
             <div class="card-1">
                 <div class="card-text " style="padding: 20px;">
-                    <h4 ><strong> Username:</strong> {{request.user.profile.user}}</h4>
-                    <h4 ><strong>First Name:</strong> {{request.user.profile.name}}</h4>
-                    <h4 ><strong>Email:</strong> {{request.user.profile.email}}</h4><br>
-                    <h4 class="text-center"><strong>Profile Bio</strong></h4>
-                    <p class="text-center">{{request.user.profile.bio}}</p><hr>
+                    <h4 ><strong>Username:</strong>{{request.user.profile.user}}</h4>
+                    <h4 ><strong>FirstName:</strong>{{request.user.profile.name}}</h4>
+                    <h4 ><strong>Email:</strong>{{request.user.profile.email}}</h4>
+                    <h4><strong>Bio:</strong>{{request.user.profile.bio}}</h4>
+                    <hr>
                 </div>
 
             </div>
@@ -37,7 +37,7 @@
         </div>
     </div>
     <div >
-        <h3 class="text-center" style="font-weight: bold;">My Projects</h3><hr>  
+        <h3 class="text-center" style="font-weight: bold;">Projects by: {{request.user.profile.user}}</h3><hr>  
         {% for project in projects %}
         <div class="col-lg-4 col-lg-4 col-lg-4">
             <div class="card ">

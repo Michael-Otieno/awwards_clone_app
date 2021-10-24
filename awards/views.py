@@ -47,7 +47,7 @@ def register(request):
         email=request.POST['email']
         password1=request.POST['password1']
         password2=request.POST['password2']
-        user = User.objects.create_user(username=username,email=email,password=password1)
+        user = User.objects.create_user(username=username,email=email,password=password1,password2=password2)
         user.save()
         profile=Profile.objects.create(user=user,email=user.email)
         
@@ -103,37 +103,5 @@ class ProjectList(APIView):
         all_projects =Project.objects.all()
         serializers =ProjectSerializer(all_projects, many=True)
         return Response(serializers.data)
-
-
-# class RegisterAPIView(APIView):
-#     """
-#     Registration class
-    
-#     {
-#         "first_name": "XYZ",
-#         "last_name": "HTV",
-#         "username": "yxx",
-#         "email": "email",
-#         "password": "****"  
-#     }
-    
-#     """
-#     def post(self,request,format=None):
-#         data = request.data
-#         user=User.objects.create(
-#             username=data['username'],
-#             email=data['email'],
-#             password1=data['password']
-#             password2=data['password']
-#             if password1 == password2:
-
-#         )
-#         profile=Profile.objects.create(
-#             user=user
-#         )
-
-
-#         return Response(ProfileSerializer(profile).data, status=status.HTTP_201_CREATED)
-
 
 

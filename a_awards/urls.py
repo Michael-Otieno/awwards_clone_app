@@ -25,8 +25,7 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url('',include('awards.urls')),
     url('login/', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
-    url(r'^logout/$', views.LoginView, {"next_page": '/'}),
-    # url('api-auth/', include('rest_framework.urls')),
+    url(r'^logout/$', views.LogoutView.as_view(template_name='awwards/home.html'), {"next_page": '/'}),
 
 
 ]

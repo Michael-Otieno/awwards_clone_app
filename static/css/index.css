@@ -5,7 +5,7 @@
 }
 
 .card {
-    box-shadow: 0 4px 8px 0 #4379ee;
+    box-shadow: 0 4px 8px 0 #535250;
     transition: 0.3s;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -23,7 +23,7 @@
 }
   
 .card:hover {
-box-shadow: 0 8px 16px 0 #4379ee;
+box-shadow: 0 8px 16px 0 #535250;
 }
   
 img {

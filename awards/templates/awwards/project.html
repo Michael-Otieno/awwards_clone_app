@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% block content %}
 {{block.super}} 
 <div class="container" style="padding: 50px;">
@@ -6,43 +8,72 @@
         <div class="col-lg-4">
             <div class="card ">
                 <img src="{{project.webimage.url}}"  class="card-img-top img-fluid" alt="{{project.name}}" >
-                <div class="card-text text-center" style="padding: 20px;">
-                    
+                <div class="card text-center" >                   
                     <div>
-                        <h4>Star Rating</h4>
-                        <small>Design:</small>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span><br>
-                        <small>Content:</small>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span><br>
-                        <small>Usability:</small>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span><br><br>
+                        <!-- <h4>Star Rating</h4> -->
+                        <div class="mask rgba-black-slight">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!-- <div class="col-md-3"></div> -->
+                                    <div class="d-flex flex-row mx-auto" style="margin-top:20%">
+                                        {% for rating in project.ratings.all %}
+                                        {% if forloop.counter is project.ratings.all.count %}
+                                        <div id="design">{{ rating.design_average}}<br>
+                                            <span class="rates">design</span>
+                                        </div>
+                                        <div id="usable" class="mx-auto">{{ rating.usability_average }}<br>
+                                            <span class="rates">usability</span>
+                                        </div>
+                                        <div id="contente">{{ rating.content_average }}<br>
+                                            <span class="rates">content</span>
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <!-- <div class="col-md-3"></div> -->
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8">
+                                    <h3 class="D-block mx-auto">Ratings Scores</h3>
+                                    {% for rating in project.ratings.all %}
+                                    {% if forloop.counter is project.ratings.all.count %}
+                                    <a class="btn btn-info btn-sm" ><h5>{{ rating.score }}</h5>
+                                        <span class="sc">Average Score</span>
+                                    </a>
+                                    <a class="btn btn-outline-success btn-sm" ><h5>{{ rating.design_average }}</h5>
+                                        <span class="sc">Design Average</span>
+                                    </a>
+                                    <a class="btn btn-outline-primary btn-sm" id="u"><h5>{{ rating.usability_average }}</h5>
+                                        <span class="sc">Usability Average</span>
+                                    </a>
+                                    <a class="btn btn-outline-danger btn-sm" id="c"><h5>{{ rating.content_average }}</h5>
+                                        <span class="sc">Content Average</span>
+                                    </a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                
+                            {% if rating_status %}
+                            {% if user.is_authenticated %}
+
+                            <form action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{rating_form|crispy}}
+                                <button class="btn btn-sm btn-primary">Rate</button>
+                            </form>
+                            {% else %}
+                            <h5>You have already voted</h5>
+
+                           
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                
                     </div>
                 </div>
             </div>
@@ -57,12 +88,12 @@
                 <h5><strong> Developer: {{project.profile}}</strong></h5><br><br>
                 <a class="btn btn-info text-center" style="border-radius: 25px;" href="http://{{project.link}}" target="_blank">Visit Website</a><br><br>
             </div>
-            <div >
+            <!-- <div >
                 <h3 style="font-weight: bold;">Average Rating score:</h3>
                 <p>Design: </p>
                 <p>Content: </p>
                 <p>Usability: </p>
-            </div>
+            </div> -->
    
         </div>
     </div>

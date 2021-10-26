@@ -83,7 +83,7 @@ INSTALLED_APPS = [
     'awards',
     "bootstrap3",
     'rest_framework',
-    
+    'crispy_forms',
 
 ]
 

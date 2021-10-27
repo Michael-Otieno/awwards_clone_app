@@ -39,9 +39,9 @@ class Project(models.Model):
 
         return projects
 
-    # def no_of_ratings(self):
-    #     ratings=Rating.objects.filter(project=self)
-    #     return len(ratings)
+    def no_of_ratings(self):
+        ratings=Rating.objects.filter(project=self)
+        return len(ratings)
 
     def __str__(self):
         return self.name

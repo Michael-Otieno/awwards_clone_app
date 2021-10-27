@@ -70,7 +70,7 @@ class Rating(models.Model):
     usability_average = models.FloatField(default=0, blank=True)
     content_average = models.FloatField(default=0, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='rater')
-    post = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='ratings', null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='ratings', null=True)
 
     def save_rating(self):
         self.save()

@@ -22,8 +22,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=True, cast=bool)
 # development
 if config('MODE')=="dev":
-   DATABASES = {
-       'default': {
+    DATABASES = {
+        'default': {
            'ENGINE': 'django.db.backends.postgresql',
            'NAME': config('DB_NAME'),
            'USER': config('DB_USER'),
@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     "bootstrap3",
     'rest_framework',
     'crispy_forms',
+    'cloudinary_storage',
 
 ]
 
@@ -194,3 +195,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 django_heroku.settings(locals())
 
 LOGIN_REDIRECT_URL = '/'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dnduhjuul',
+    'API_KEY': '758142132227254',
+    'API_SECRET': 'DUAe598cILMJIJ2_m_9pMOKUYTQ',
+    'secure': 'true',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
